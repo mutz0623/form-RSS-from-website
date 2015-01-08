@@ -29,7 +29,7 @@ do
   #echo "$LINE"
   ITEM_TITLE="$(echo "$LINE" |cut -d"," -f1)"
   ITEM_URL="$(echo "$LINE" |cut -d"," -f2)"
-  ITEM_DATE="$(date -R -d "$( echo "$LINE" |cut -d"," -f3 |sed -r "s/^(....)-(..)-(..)-(..)-(..)$/\1\/\2\/\3 \4:\5/" )" )"
+  ITEM_DATE="$(echo "$LINE" |cut -d"," -f3 |date -R)"
   ITEM_DESC="$(echo "$LINE" |cut -d"," -f4)"
 
   echo "                <item>"
