@@ -1,5 +1,6 @@
 #!/bin/bash
 
+URL="http://URL"
 
 cat <<EOT
 <?xml version="1.0" encoding="UTF-8"?>
@@ -11,14 +12,14 @@ cat <<EOT
 
 	<channel>
 		<title>TITLE</title>
-		<link>http;//URL</link>
+		<link>$URL</link>
 		<description>[generatedRSS]DESCRIPTION</description>
 		<dc:language>ja</dc:language>
 		<dc:creator>CREATER</dc:creator>
 		<dc:date>`date "+%F %T"`</dc:date>
 EOT
 
-curl http://URL 2>/dev/null|
+curl $URL 2>/dev/null|
 nkf -wLu |
 awk '/START/ , /END/' |
 sed -r -e "s/patern//g" |
