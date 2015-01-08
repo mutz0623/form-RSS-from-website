@@ -29,8 +29,20 @@ do
   #echo "$LINE"
   ITEM_TITLE="$(echo "$LINE" |cut -d"," -f1)"
   ITEM_URL="$(echo "$LINE" |cut -d"," -f2)"
-  ITEM_DATE="$(echo "$LINE" |cut -d"," -f3 |xargs -I@ date -R -d "@" )"
   ITEM_DESC="$(echo "$LINE" |cut -d"," -f4)"
+
+
+  ### 起点のページから各記事の日付が取得出来る場合
+  ITEM_DATE="$(echo "$LINE" |cut -d"," -f3 |xargs -I@ date -R -d "@" )"
+
+  ### 起点のページから各記事の日付が取得出来ない場合は
+  ### Last-Modifiedを取ってくる
+  # interval for never DOS atack
+  sleep 1
+  ITEM_DATE=$(wget -S --spider $ITEM_URL 2>&1 |
+             grep "Last-Modified:"    |
+             cut -d ":" -f2-          |
+             xargs -I@ date -R -d"@" )
 
   echo "                <item>"
   echo "                <title>`echo "$ITEM_TITLE"`</title>"
